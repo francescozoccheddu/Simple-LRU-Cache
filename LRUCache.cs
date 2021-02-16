@@ -65,7 +65,7 @@ namespace SimpleLRUCache
         {
             if (_capacity < 0)
             {
-                throw new ArgumentOutOfRangeException($"Capacity cannot be negative", nameof(_capacity));
+                throw new ArgumentOutOfRangeException(nameof(_capacity), $"Capacity cannot be negative");
             }
             if (_comparer is null)
             {
@@ -94,7 +94,7 @@ namespace SimpleLRUCache
         {
             if (_maxCount < 0)
             {
-                throw new ArgumentOutOfRangeException($"Max count cannot be negative", nameof(_maxCount));
+                throw new ArgumentOutOfRangeException(nameof(_maxCount), $"Max count cannot be negative");
             }
             if (_maxCount >= Count)
             {

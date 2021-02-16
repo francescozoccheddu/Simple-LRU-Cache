@@ -128,7 +128,7 @@ namespace SimpleLRUCache
                 else
                 {
                     LinkedListNode<TKey> node = m_keys.AddLast(_key);
-                    Trim(Capacity);
+                    Trim(Capacity - 1);
                     m_dictionary.Add(_key, new ValueHolder(node, value));
                     m_values = null;
                 }
@@ -144,18 +144,18 @@ namespace SimpleLRUCache
         IEnumerable<TKey> IReadOnlyDictionary<TKey, TValue>.Keys
             => m_dictionary.Keys;
 
-        IEnumerable<TValue> IReadOnlyDictionary<TKey, TValue>.Values
+        public IEnumerable<TValue> Values
             => m_dictionary.Values.Select(_v => _v.value);
 
         public ICollection<TKey> Keys => m_dictionary.Keys;
 
-        public ICollection<TValue> Values
+        ICollection<TValue> IDictionary<TKey, TValue>.Values
         {
             get
             {
                 if (m_values is null)
                 {
-                    m_values = m_dictionary.Values.Select(_h => _h.value).ToArray();
+                    m_values = Values.ToArray();
                 }
                 return m_values;
             }
@@ -168,7 +168,7 @@ namespace SimpleLRUCache
                 throw new ArgumentException("An argument with the same key already exists", nameof(_key));
             }
             LinkedListNode<TKey> node = m_keys.AddLast(_key);
-            Trim(Capacity);
+            Trim(Capacity - 1);
             m_dictionary.Add(_key, new ValueHolder(node, _value));
             m_values = null;
         }
